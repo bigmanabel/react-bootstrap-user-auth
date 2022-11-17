@@ -35,6 +35,7 @@ const loginUser = async (req, res) => {
         select: {
             id: true,
             email: true,
+            password: true
         },
         where : {
             email: email,
@@ -57,12 +58,32 @@ const loginUser = async (req, res) => {
 
     const token = createToken({id: user.id});
 
-    return res.status(200).json({user: user.email, token});
+    return res.status(200).json({email: user.email, token});
 }
 
 // Register User
 const registerUser = async (req, res) => {
     const {email , password, confirmPassword } = req.body;
+
+    const emptyFields = [];
+
+    if (email == '') {
+        emptyFields.push('email');
+    }
+
+    if (password == '') {
+        emptyFields.push('password');
+    }
+
+    if (confirmPassword == '') {
+        emptyFields.push('confirmPassword');
+    }
+
+    if (emptyFields.length > 0) {
+        return res.status(400).json({
+            error: 'All fields are required'
+        })
+    }
 
     const userExists = await prisma.user.findUnique({
         where: {
@@ -90,7 +111,7 @@ const registerUser = async (req, res) => {
         }
     });
 
-    return res.status(201).json(newUser);
+    return res.status(201).json({ email: newUser.email});
 }
 
 module.exports = {

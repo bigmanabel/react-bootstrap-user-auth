@@ -3,17 +3,19 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Home from './pages/Home';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { useContext } from 'react';
+import { AuthContext } from './contexts/AuthContext';
 
 function App() {
-  const user = localStorage.getItem('user');
+  const { isLoggedIn } = useContext(AuthContext);
   
   return (
     <div>
       <Router>
         <Routes>
-          <Route path='/login' element={!user ? <Login/> : <Navigate to='/' />} />
-          <Route path='/register' element={!user ? <Register/> : <Navigate to='/' />} />
-          <Route path='/' element={user ? <Home /> : <Navigate to='/login' /> } />
+          <Route path='/login' element={!isLoggedIn ? <Login/> : <Navigate to='/' />} />
+          <Route path='/register' element={!isLoggedIn ? <Register/> : <Navigate to='/' />} />
+          <Route path='/' element={isLoggedIn ? <Home /> : <Navigate to='/login' /> } />
         </Routes>
       </Router>
     </div>

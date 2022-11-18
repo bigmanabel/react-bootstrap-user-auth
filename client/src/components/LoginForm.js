@@ -5,9 +5,11 @@ import Image from 'react-bootstrap/Image';
 import Alert from 'react-bootstrap/Alert';
 import { Link } from 'react-router-dom';
 import reactLogo from '../reactLogo.png';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { AuthContext } from '../contexts/AuthContext';
 
 export const LoginForm = () => {
+    const { login } = useContext(AuthContext);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
@@ -37,7 +39,7 @@ export const LoginForm = () => {
             setPassword('');
             setError(null);
             localStorage.setItem('user', JSON.stringify(data));
-            console.log(data)
+            login();
         }
       
     }

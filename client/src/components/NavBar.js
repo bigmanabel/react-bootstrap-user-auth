@@ -3,12 +3,12 @@ import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import Button from 'react-bootstrap/Button';
 import reactLogo from '../reactLogo.png';
+import { useContext } from 'react';
+import { AuthContext } from '../contexts/AuthContext';
 
 export const NavBar = () => {
 
-  const clickHandler = () => {
-    localStorage.removeItem('user');
-  }
+    const { logout } = useContext(AuthContext);
 
   return (
     <>
@@ -22,12 +22,12 @@ export const NavBar = () => {
               height="30"
               className="d-inline-block align-top"
             />{' '}
-            React User Auth
+            React Auth
             </Navbar.Brand>
 
             <Nav>
               <Nav.Item>
-                <Button variant='dark' onClick={clickHandler}>Log out</Button>
+                <Button variant='dark' onClick={logout}>Log out</Button>
               </Nav.Item>
             </Nav>
           </Container>
